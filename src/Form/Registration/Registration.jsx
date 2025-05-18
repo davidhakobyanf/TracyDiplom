@@ -69,6 +69,8 @@ const Registration = ({ form, setCheck }) => {
 
             const dietData = await response.json();
             message.success({ content: 'Diet record created', key: 'diet', duration: 2 });
+
+            // Возвращаем весь объект dietData, чтобы иметь доступ к id
             return dietData;
         } catch (error) {
             message.error({ content: error.message, key: 'diet', duration: 2 });
@@ -108,19 +110,22 @@ const Registration = ({ form, setCheck }) => {
             const user = await userResponse.json();
             const userId = user.id || Date.now();
 
-            // 2. Создание записи о диете
-            await createDietRecord(userId);
+            // 2. Создание записи о диете и получение dietId
+            const dietResponse = await createDietRecord(userId);
+            const dietId = dietResponse.id; // Получаем dietId из ответа
 
             // 3. Сохранение данных
             const completeUser = {
                 id: userId,
-                ...userData
+                ...userData,
+                dietId: dietId // Добавляем dietId к данным пользователя
             };
 
-            // Локальное хранилище
+            // Сохраняем в localStorage
             localStorage.setItem('Name', values.name);
             localStorage.setItem('currentUser', JSON.stringify(completeUser));
             localStorage.setItem('userId', userId);
+            localStorage.setItem('dietId', dietId); // Явно сохраняем dietId
             setCookie('UserId', userId, { path: '/' });
 
             // Добавление в список пользователей
@@ -129,7 +134,8 @@ const Registration = ({ form, setCheck }) => {
                 id: userId,
                 name: values.name,
                 password: values.password,
-                userData: completeUser
+                userData: completeUser,
+                dietId: dietId // Сохраняем dietId для этого пользователя
             });
             localStorage.setItem('users', JSON.stringify(existingUsers));
 

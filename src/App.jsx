@@ -3,6 +3,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import Content from './Content/Content';
 import FormContainer from './Form/FormContainer';
 import Profile from './Profile/Profile';
+import Admin from "./Admin/Admin";
 
 const router = createBrowserRouter([
     {
@@ -10,14 +11,16 @@ const router = createBrowserRouter([
         element: <Content/>,
         children: [
             {
-                path: '/healthhybite',
+                index: true,
                 element: <FormContainer/>,
             },
             {
-                path: '/healthhybite/profile',
-                element: (
-                    <Profile/>
-                ),
+                path: 'profile',
+                element: <Profile/>,
+            },
+            {
+                path: 'admin',
+                element: <Admin/>,
             },
         ],
     },
@@ -25,9 +28,7 @@ const router = createBrowserRouter([
 
 function App() {
     return (
-
         <RouterProvider router={router}/>
-
     );
 }
 

@@ -9,7 +9,9 @@ const Content = () => {
 
     useEffect(() => {
         const userId = cookies.UserId;
-        if (userId) {
+        if (userId && userId === 'admin') {
+            navigate('/healthhybite/admin');
+        }else  if  (userId && userId !== 'admin') {
             navigate('/healthhybite/profile');
         } else {
             navigate('/healthhybite');
