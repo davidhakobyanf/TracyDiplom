@@ -8,7 +8,9 @@ const { TabPane } = Tabs;
 
 const Profile = () => {
     const NameFromLocalStorage = localStorage.getItem('Name');
-    const UserIdFromLocalStorage = localStorage.getItem('UserId');
+    const userId = localStorage.getItem('userId') || localStorage.getItem('UserId');
+
+
     const [meals, setMeals] = useState([]);
     const [filteredMeals, setFilteredMeals] = useState([]);
     const [selectedMeal, setSelectedMeal] = useState(null);
@@ -39,11 +41,11 @@ const Profile = () => {
 
     // Fetch user diet data
     const fetchUserDiet = async () => {
-        if (!UserIdFromLocalStorage) return;
-
+        if (!userId) return;
+        console.log(userId,'UserIdFromLocalStorage')
         setLoading(true);
         try {
-            const response = await fetch(`/api/diets/user/${UserIdFromLocalStorage}`);
+            const response = await fetch(`/api/diets/user/${userId}`);
             if (response.ok) {
                 const data = await response.json();
                 setUserDiets(Array.isArray(data) ? data : [data]); // Ensure it's always an array
