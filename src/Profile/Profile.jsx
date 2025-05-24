@@ -275,7 +275,7 @@ const Profile = () => {
                             >
                                 {filteredMeals.map(meal => (
                                     <Option key={meal.id} value={meal.id}>
-                                        {meal.name || `${meal.mealType} Meal`}
+                                        Id:{meal?.id} - {meal.name || `${meal.mealType} Meal`}
                                     </Option>
                                 ))}
                             </Select>
